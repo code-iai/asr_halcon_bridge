@@ -37,13 +37,16 @@ namespace halcon_bridge {
 
     const char* getHalconEncoding(const std::string& encoding) {
       // 3/4-channel encodings
-      if (encoding == sensor_msgs::image_encodings::BGR8)   return "bgr";
-      if (encoding == sensor_msgs::image_encodings::RGB8)   return "rgb";
-      if (encoding == sensor_msgs::image_encodings::BGRA8)  return "bgrx";
-      if (encoding == sensor_msgs::image_encodings::RGBA8)  return "rgbx";
+      if (encoding == sensor_msgs::image_encodings::BGR8)    return "bgr";
+      if (encoding == sensor_msgs::image_encodings::BGR16)   return "bgr";
+      if (encoding == sensor_msgs::image_encodings::RGB8)    return "rgb";
+      if (encoding == sensor_msgs::image_encodings::RGB16)   return "rgb";
+      if (encoding == sensor_msgs::image_encodings::BGRA8)   return "bgrx";
+      if (encoding == sensor_msgs::image_encodings::RGBA8)   return "rgbx";
 
       // 1-channel encoding
       if (encoding == sensor_msgs::image_encodings::MONO8)  return "mono";
+      if (encoding == sensor_msgs::image_encodings::MONO16)  return "mono";
 
       // Other formats are not supported
       return INVALID;
@@ -107,7 +110,7 @@ namespace halcon_bridge {
         ros_image.width = width;
         ros_image.encoding = encoding;
         ros_image.is_bigendian = false;
-        ros_image.step = channel_count * width;
+        ros_image.step = channel_count * width;  // Is wrong for multi-byte pixels, will fix below
 
 
         HalconCpp::HString typeReturn;
@@ -166,6 +169,7 @@ namespace halcon_bridge {
             size_t size = interleavedHeight * interleavedWidth * getHalconTypeSize((std::string)typeReturn);
             ros_image.data.resize(size);
             memcpy((unsigned char*)(&ros_image.data[0]), colorData, size);
+            ros_image.step = channel_count * width * getHalconTypeSize((std::string)typeReturn);
 
             interleavedImage->Clear();
             imageRed.Clear();
@@ -184,6 +188,7 @@ namespace halcon_bridge {
             size_t size = height * width * getHalconTypeSize((std::string)typeReturn);
             ros_image.data.resize(size);
             memcpy((unsigned char*)(&ros_image.data[0]), colorData, size);
+            ros_image.step = channel_count * width * getHalconTypeSize((std::string)typeReturn);
         }
 
     }
