@@ -18,8 +18,8 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #include <asr_halcon_bridge/halcon_pointcloud.h>
 #include <boost/make_shared.hpp>
 
-#include <sensor_msgs/PointCloud2.h>
-#include <sensor_msgs/PointField.h>
+#include <sensor_msgs/msg/PointCloud2.hpp>
+#include <sensor_msgs/msg/PointField.hpp>
 
 namespace halcon_bridge {
 

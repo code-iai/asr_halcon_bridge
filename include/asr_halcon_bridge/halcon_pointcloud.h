@@ -15,7 +15,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 */
 
-#include <sensor_msgs/PointCloud2.h>
+#include <sensor_msgs/msg/PointCloud2.hpp>
 #include <HalconCpp.h>
 #include <stdexcept>
 
