@@ -48,3 +48,7 @@ qtcreator-*
 # Ignore generated docs
 docs/
 *.wikidoc
+
+#CLion
+.idea/
+cmake-build-debug/
