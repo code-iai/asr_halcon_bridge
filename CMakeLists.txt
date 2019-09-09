@@ -48,7 +48,9 @@ install(DIRECTORY include/${PROJECT_NAME}/
 )
 
 ament_export_include_directories(include)
+ament_export_include_directories(${Halcon_INCLUDE_DIRS})
 ament_export_libraries(${PROJECT_NAME})
+ament_export_libraries(${Halcon_LIBRARIES})
 ament_export_dependencies(rclcpp)
 ament_export_dependencies(std_msgs)
 ament_package()
