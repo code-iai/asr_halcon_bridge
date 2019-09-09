@@ -1,6 +1,7 @@
 /**
 
 Copyright (c) 2016, Allgeyer Tobias
+Copyright (c) 2019, Georg Bartels
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -17,7 +18,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 #pragma once
 
-#include <sensor_msgs/Image.h>
+#include <sensor_msgs/msg/image.hpp>
 #include <HalconCpp.h>
 #include <stdexcept>
 
@@ -33,7 +34,7 @@ namespace halcon_bridge {
 
     class HalconImage;
 
-    typedef boost::shared_ptr<HalconImage> HalconImagePtr;
+    typedef std::shared_ptr<HalconImage> HalconImagePtr;
 
     /**
      * \brief Image message class that is interoperable with sensor_msgs/Image but uses a HImage representation for the image data.
@@ -42,7 +43,7 @@ namespace halcon_bridge {
      */
     class HalconImage {
         public:
-            std_msgs::Header header;
+            std_msgs::msg::Header header;
             std::string encoding;
             boost::shared_ptr<HalconCpp::HImage> image;
 
@@ -53,7 +54,7 @@ namespace halcon_bridge {
              *
              * The returned sensor_msgs::Image message contains a copy of the image data.
              */
-            sensor_msgs::ImagePtr toImageMsg() const;
+            sensor_msgs::msg::Image::SharedPtr toImageMsg() const;
 
             /**
              * \brief Copy the message data to a ROS sensor_msgs::Image message.
@@ -61,7 +62,7 @@ namespace halcon_bridge {
              * This overload is intended mainly for aggregate messages such as stereo_msgs::DisparityImage,
              * which contains a sensor_msgs::Image as a data member.
              */
-            void toImageMsg(sensor_msgs::Image& ros_image) const;
+            void toImageMsg(sensor_msgs::msg::Image& ros_image) const;
     };
 
 
@@ -71,7 +72,7 @@ namespace halcon_bridge {
      *
      * \param source   A shared_ptr to a sensor_msgs::Image message
      */
-    HalconImagePtr toHalconCopy(const sensor_msgs::ImageConstPtr& source);
+    HalconImagePtr toHalconCopy(const sensor_msgs::msg::Image::ConstSharedPtr & source);
 
     /**
      * \brief Convert a sensor_msgs::Image message to a Halcon-compatible HImage, copying the
@@ -79,7 +80,7 @@ namespace halcon_bridge {
      *
      * \param source   A sensor_msgs::Image message
      */
-    HalconImagePtr toHalconCopy(const sensor_msgs::Image& source);
+    HalconImagePtr toHalconCopy(const sensor_msgs::msg::Image& source);
 
 
 

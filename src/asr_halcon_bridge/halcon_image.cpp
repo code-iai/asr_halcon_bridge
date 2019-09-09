@@ -1,6 +1,7 @@
 /**
 
 Copyright (c) 2016, Allgeyer Tobias
+Copyright (c) 2019, Georg Bartels
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -16,7 +17,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 */
 
 #include <asr_halcon_bridge/halcon_image.h>
-#include <sensor_msgs/image_encodings.h>
+#include <sensor_msgs/image_encodings.hpp>
 #include <boost/make_shared.hpp>
 
 namespace halcon_bridge {
@@ -86,15 +87,15 @@ namespace halcon_bridge {
 
     HalconImage::~HalconImage() {}
 
-    sensor_msgs::ImagePtr HalconImage::toImageMsg() const {
-      sensor_msgs::ImagePtr ptr = boost::make_shared<sensor_msgs::Image>();
+    sensor_msgs::msg::Image::SharedPtr HalconImage::toImageMsg() const {
+        sensor_msgs::msg::Image::SharedPtr ptr = std::make_shared<sensor_msgs::msg::Image>();
       toImageMsg(*ptr);
       return ptr;
     }
 
 
 
-    void HalconImage::toImageMsg(sensor_msgs::Image& ros_image) const {
+    void HalconImage::toImageMsg(sensor_msgs::msg::Image& ros_image) const {
         long width, height;
         width = image->Width();
         height = image->Height();
@@ -190,14 +191,13 @@ namespace halcon_bridge {
 
 
 
-    HalconImagePtr toHalconCopy(const sensor_msgs::ImageConstPtr& source) {
+    HalconImagePtr toHalconCopy(const sensor_msgs::msg::Image::ConstSharedPtr & source) {
       return toHalconCopy(*source);
     }
 
-    HalconImagePtr toHalconCopy(const sensor_msgs::Image& source) {
-        HalconImagePtr ptr = boost::make_shared<HalconImage>();
+    HalconImagePtr toHalconCopy(const sensor_msgs::msg::Image& source) {
+        HalconImagePtr ptr = std::make_shared<HalconImage>();
         ptr->image = boost::make_shared<HalconCpp::HImage>();
-
         ptr->header = source.header;
         ptr->encoding = source.encoding;
 
