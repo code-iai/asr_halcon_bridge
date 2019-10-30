@@ -84,12 +84,7 @@ namespace halcon_bridge {
         return INVALID;
     }
 
-
-
-
-    HalconImage::~HalconImage() {
-        delete image;
-    }
+    HalconImage::~HalconImage() {}
 
     sensor_msgs::ImagePtr HalconImage::toImageMsg() const {
       sensor_msgs::ImagePtr ptr = boost::make_shared<sensor_msgs::Image>();
@@ -209,14 +204,12 @@ namespace halcon_bridge {
         }
 
         long* pixeldata = (long*)const_cast<unsigned char*>(&source.data[0]);
-        HalconCpp::HImage *img = new HalconCpp::HImage();
         if ((std::string)getHalconEncoding(source.encoding) == "mono") {
-             img->GenImage1(getHalconChannelLength(source.encoding), source.width, source.height, pixeldata);
+             ptr->image->GenImage1(getHalconChannelLength(source.encoding), source.width, source.height, pixeldata);
         } else {
-            img->GenImageInterleaved(pixeldata, getHalconEncoding(source.encoding), source.width, source.height, 0,
+            ptr->image->GenImageInterleaved(pixeldata, getHalconEncoding(source.encoding), source.width, source.height, 0,
                                  getHalconChannelLength(source.encoding), source.width, source.height, 0, 0, -1, 0);
         }
-        ptr->image = img;
 
         return ptr;
     }

@@ -42,7 +42,7 @@ namespace halcon_bridge {
         public:
             std_msgs::Header header;
             std::string encoding;
-            HalconCpp::HImage *image;
+            boost::shared_ptr<HalconCpp::HImage> image;
 
             ~HalconImage();
 
