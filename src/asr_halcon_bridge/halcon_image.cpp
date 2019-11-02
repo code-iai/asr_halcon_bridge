@@ -196,6 +196,8 @@ namespace halcon_bridge {
 
     HalconImagePtr toHalconCopy(const sensor_msgs::Image& source) {
         HalconImagePtr ptr = boost::make_shared<HalconImage>();
+        ptr->image = boost::make_shared<HalconCpp::HImage>();
+
         ptr->header = source.header;
         ptr->encoding = source.encoding;
 
