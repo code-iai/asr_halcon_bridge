@@ -1,7 +1,7 @@
 /**
 
 Copyright (c) 2016, Allgeyer Tobias
-Copyright (c) 2019, Georg Bartels
+Copyright (c) 2020 Georg Bartels
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
@@ -45,7 +45,7 @@ namespace halcon_bridge {
         public:
             std_msgs::msg::Header header;
             std::string encoding;
-            boost::shared_ptr<HalconCpp::HImage> image;
+            std::shared_ptr<HalconCpp::HImage> image;
 
             ~HalconImage();
 
