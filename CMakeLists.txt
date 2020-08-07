@@ -11,8 +11,6 @@ find_package(Halcon REQUIRED)
 find_package(ament_cmake REQUIRED)
 find_package(sensor_msgs REQUIRED)
 
-set(dependencies Halcon sensor_msgs)
-
 add_library(${PROJECT_NAME}
   src/${PROJECT_NAME}/halcon_image.cpp
   #    src/${PROJECT_NAME}/halcon_pointcloud.cpp  # TODO: add migrate to ROS2 Foxy
@@ -20,7 +18,7 @@ add_library(${PROJECT_NAME}
 target_include_directories(${PROJECT_NAME} PUBLIC 
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include> 
   $<INSTALL_INTERFACE:include>)
-ament_target_dependencies(${PROJECT_NAME} ${dependencies})
+ament_target_dependencies(${PROJECT_NAME} Halcon sensor_msgs)
 
 install(TARGETS ${PROJECT_NAME}
   ARCHIVE DESTINATION lib
@@ -32,5 +30,7 @@ install(DIRECTORY include/
     DESTINATION include
 )
 
-ament_export_dependencies(${dependencies})
+ament_export_include_directories(include ${Halcon_INCLUDE_DIRS})
+ament_export_libraries(${PROJECT_NAME} ${Halcon_LIBRARIES})
+ament_export_dependencies(sensor_msgs)
 ament_package()
